@@ -2,7 +2,7 @@
 Automated Factorio Dedicated Server management on AWS
 
 ## Intro
-This project uses [AWS CDK](https://aws.amazon.com/cdk/) to provision everything you need to host a [Factorio Dedicated Server](https://satisfactory.fandom.com/wiki/Dedicated_servers) on AWS.  It includes the following:
+This project uses [AWS CDK](https://aws.amazon.com/cdk/) to provision everything you need to host a Factorio Dedicated Server on AWS.  It includes the following:
  - VPC/Network configuration
  - Ec2 Instance provisioning
  - Automatic shutdown behavior when not in use (saves $$)
