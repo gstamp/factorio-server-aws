@@ -1,6 +1,11 @@
 export const Config = {
   // compulsory parameters
 
+  // Factorio instance game version
+  version: "latest",
+  // Factorio save name
+  savename: "my-save.zip",
+
   // server hosting region
   region: "",
   // server hosting account
