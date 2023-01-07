@@ -15,7 +15,7 @@ apt update
 apt install -y unzip lib32gcc1
 
 # install factorio
-curl -L https://www.factorio.com/get-download/1.1.61/headless/linux64 -o /tmp/factorio.tar.xz
+curl -L https://www.factorio.com/get-download/1.1.74/headless/linux64 -o /tmp/factorio.tar.xz
 useradd factorio
 mkdir /opt
 cd /opt
