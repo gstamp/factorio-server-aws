@@ -161,7 +161,7 @@ export class ServerHostingStack extends Stack {
     });
     server.userData.addExecuteFileCommand({
       filePath: localPath,
-      arguments: `${savesBucket.bucketName} ${Config.duckDnsToken} ${Config.duckDnsSubdomain}`,
+      arguments: `${Config.version} ${savesBucket.bucketName} ${Config.savename} ${Config.duckDnsToken} ${Config.duckDnsSubdomain}`,
     });
 
     //////////////////////////////

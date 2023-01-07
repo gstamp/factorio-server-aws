@@ -1,12 +1,16 @@
 #!/bin/sh
 
 # Note: Arguments to this script 
-#  1: string - S3 bucket for your backup save files (required)
-#  2: string - Duck DNS token
-#  3: string - Duck DNS subdomain
-S3_SAVE_BUCKET=$1
-DUCK_DNS_TOKEN=$2
-DUCK_DNS_SUBDOMAIN=$3
+#  1: string - Factorio game server version (required)
+#  2: string - S3 save bucket (required)
+#  3: string - S3 save name (required)
+#  4: string - Duck DNS token
+#  5: string - Duck DNS subdomain
+GAME_VERSION=$1
+S3_SAVE_BUCKET=$2
+S3_SAVE_NAME=$3
+DUCK_DNS_TOKEN=$4
+DUCK_DNS_SUBDOMAIN=$5
 
 add-apt-repository multiverse
 dpkg --add-architecture i386
@@ -15,17 +19,20 @@ apt update
 apt install -y unzip lib32gcc1
 
 # install factorio
-curl -L https://www.factorio.com/get-download/1.1.74/headless/linux64 -o /tmp/factorio.tar.xz
+
+curl -L https://www.factorio.com/get-download/$GAME_VERSION/headless/linux64 -o /tmp/factorio.tar.xz
 useradd factorio
 mkdir /opt
 cd /opt
 tar -xJf /tmp/factorio.tar.xz
+/usr/local/bin/aws s3 sync s3://$S3_SAVE_BUCKET/$S3_SAVE_NAME /opt/factorio/saves/$S3_SAVE_NAME
 chown -R factorio:factorio /opt/factorio
 cd /opt/factorio
-su - factorio -c "./bin/x64/factorio --create ./saves/my-save.zip"
+
+su - factorio -c "./bin/x64/factorio --create ./saves/$S3_SAVE_NAME"
 
 # Add service for factorio
-cat << 'EOF' > /etc/systemd/system/factorio.service
+cat << EOF > /etc/systemd/system/factorio.service
 [Unit]
 Description=Factorio dedicated server
 Wants=network-online.target
@@ -33,7 +40,7 @@ After=syslog.target network.target nss-lookup.target network-online.target
 
 [Service]
 Environment="LD_LIBRARY_PATH=./linux64"
-ExecStart=/opt/factorio/bin/x64/factorio --start-server ./saves/my-save.zip
+ExecStart=/opt/factorio/bin/x64/factorio --start-server saves/$S3_SAVE_NAME
 User=factorio
 Group=factorio
 StandardOutput=journal
