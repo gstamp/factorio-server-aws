@@ -45,7 +45,7 @@ This assumes you have all requirements and have [configured aws cli](https://doc
 1. [Clone this project](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 2. `npm install`
 3. `npx cdk bootstrap <aws account number>/<aws region>` (replace account number and region)
-4. `cp server-hosting/.config.sample.ts server-hosting/.config.ts` if you have not done so (see [Configuration](#configuration) for customization); you must fill in region and account
+4. `cp server-hosting/config.sample.ts server-hosting/config.ts` if you have not done so (see [Configuration](#configuration) for customization); you must fill in region and account
 5. `npx cdk deploy`
 6. Wait for the CloudFormation stack to finish. It may take a few minutes for the server to download/install everything after the stack is finished.
 7. Use the Ec2 instance public IP address to connect to your server in Satisfactory Server Manager (see [DNS and IP management](#dns-and-ip-management))
